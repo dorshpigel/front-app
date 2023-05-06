@@ -24,6 +24,7 @@ function App() {
   const [finalSearchTerm, setFinalSearchTerm] = useState<string>("");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<apiRes[]>([]);
+  const [findTerm, setFindTerm] = useState<string>("");
 
   useEffect(() => {
     async function getRelatedTopics(searchWord: string) {
@@ -65,11 +66,13 @@ function App() {
   };
 
   const handleSearch = () => {
+    setFindTerm("");
     setFinalSearchTerm(searchTerm);
     setSearchHistory([...searchHistory, searchTerm]);
   };
 
   const handleHistoryClick = (term: string) => {
+    setFindTerm("");
     setSearchTerm(term);
     setFinalSearchTerm(term);
   };
@@ -92,6 +95,31 @@ function App() {
     }
 
     return returnArr;
+  };
+
+  const handleFind = () => {
+    const term = findTerm.trim();
+    if (term) {
+      const paragraphs = document.querySelectorAll("p");
+      let matchCount = 0;
+      paragraphs.forEach((p) => {
+        const content = p.innerHTML;
+        const regex = new RegExp(term, "g");
+        const matches = content.match(regex);
+        if (matches && matches.length > 0) {
+          matchCount += matches.length;
+          p.innerHTML = content.replace(
+            regex,
+            `<span style="background-color: yellow;">$&</span>`
+          );
+        }
+      });
+      if (matchCount > 0) {
+        window.alert(`Found ${matchCount} matches for '${term}'`);
+      } else {
+        window.alert(`No matches found for '${term}'`);
+      }
+    }
   };
 
   return (
@@ -152,11 +180,26 @@ function App() {
                       <Search />
                     </InputGroup.Button>
                   </InputGroup>
+                  <InputGroup className="search-bar-container">
+                    <Input
+                      className="text-input"
+                      value={findTerm}
+                      onChange={(value) => setFindTerm(value)}
+                      placeholder="Find on this page"
+                    />
+                    <InputGroup.Button
+                      onClick={() => {
+                        handleFind();
+                      }}
+                    >
+                      <Search />
+                    </InputGroup.Button>
+                  </InputGroup>
                 </FlexboxGrid.Item>
               </FlexboxGrid>
             </Container>
           </div>
-          <div className="results-section">
+          <div className="results-section" id="results-section">
             <Container className="results">
               {searchResults.length > 0 && (
                 <PanelGroup className="panel-group">
