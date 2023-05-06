@@ -5,7 +5,6 @@ import {
   Container,
   Sidebar,
   Navbar,
-  Nav,
   Input,
   InputGroup,
   Button,
@@ -70,6 +69,31 @@ function App() {
     setSearchHistory([...searchHistory, searchTerm]);
   };
 
+  const handleHistoryClick = (term: string) => {
+    setSearchTerm(term);
+    setFinalSearchTerm(term);
+  };
+
+  const getLink = (textArr: string[]) => {
+    const returnArr: any[] = [];
+    for (const text of textArr) {
+      let arr = text.split("</a>");
+      const link = arr[0].toString() + "</a>";
+      const finalText = arr[1].toString();
+      returnArr.push(
+        <div className="panel-info-container">
+          <div
+            className="link-container"
+            dangerouslySetInnerHTML={{ __html: link }}
+          />
+          <p className="result-text">{finalText}</p>
+        </div>
+      );
+    }
+
+    return returnArr;
+  };
+
   return (
     <div className="App">
       <Header className="header-container">
@@ -77,29 +101,36 @@ function App() {
       </Header>
       <Content className="content-container">
         <Container className="upper-container">
-          <Sidebar>
+          <Sidebar className="side-bar-container">
             <Navbar appearance="subtle">
-              <Navbar>
-                <Nav>
-                  <Nav.Item>Search History</Nav.Item>
-                </Nav>
-              </Navbar>
+              <Navbar></Navbar>
             </Navbar>
-            <Panel header="Search History">
-              <List>
-                {searchHistory.map((term, index) => (
-                  <List.Item key={index}>{term}</List.Item>
-                ))}
-              </List>
-              <Button appearance="subtle" onClick={handleClearHistory}>
+            <Panel header="Search History" className="history-panel">
+              {searchHistory.length > 0 && (
+                <List className="history-list" bordered hover={true}>
+                  {searchHistory.map((term, index) => (
+                    <List.Item
+                      size="md"
+                      className="list-item"
+                      onClick={() => {
+                        handleHistoryClick(term);
+                      }}
+                      key={index}
+                    >
+                      {term}
+                    </List.Item>
+                  ))}
+                </List>
+              )}
+              <Button appearance="ghost" className="history-button" onClick={handleClearHistory}>
                 Clear History
               </Button>
             </Panel>
           </Sidebar>
-          <Container>
+          <Container className="search-container">
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={12}>
-                <InputGroup>
+                <InputGroup className="search-bar-container">
                   <Input
                     value={searchTerm}
                     onChange={(value) => setSearchTerm(value)}
@@ -116,13 +147,13 @@ function App() {
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </Container>
-          <Container id="results">
+          <Container className="results">
             {searchResults.length > 0 && (
-              <PanelGroup>
+              <PanelGroup className="panel-group">
                 {searchResults.map((result) => {
                   return (
-                    <Panel header={result.Name}>
-                      <p>{result.Results}</p>
+                    <Panel header={result.Name} className="panel">
+                      {getLink(result.Results)}
                     </Panel>
                   );
                 })}
