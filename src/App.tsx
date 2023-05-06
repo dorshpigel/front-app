@@ -131,7 +131,7 @@ function App() {
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={12}>
                 <InputGroup className="search-bar-container">
-                  <Input
+                  <Input className="text-input"
                     value={searchTerm}
                     onChange={(value) => setSearchTerm(value)}
                     placeholder="Enter a search term"

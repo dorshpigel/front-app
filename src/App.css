@@ -33,14 +33,21 @@ a {
 
 .rs-list-item {
  cursor: pointer;
- background-color: #1f2833 !important;
- color: #c5c6c7;
+ background-color: #0b0c10 !important;
+ color: #5cb4af;
+ border-color: #5cb4af !important;
+ border: 1px solid  #5cb4af !important;
  padding:4px;
 }
 
 .list-item:hover {
-  background-color: #c5c6c7 !important;
-  color: #1f2833 
+  background-color:  #5cb4af !important;
+  color: #0b0c10;
+}
+
+.history-panel {
+  border: 0.5px solid #5cb4af !important;
+
 }
 
 .history-list {
@@ -60,6 +67,7 @@ a {
 .rs-btn:hover {
   color:  #5cb4af !important;
   border: 1px solid #5cb4af !important;
+  border-color: #5cb4af !important;
 }
 
 .rs-input-group:hover  {
@@ -72,6 +80,19 @@ a {
 
 .rs-input-group:focus-within {
   border-color:#45a29e !important;
+}
+
+.rs-input {
+  background-color: #0b0c10 !important;
+}
+
+.rs-input-group-btn {
+  background-color: #0b0c10 !important;
+}
+
+.rs-input-group-btn:hover {
+  background-color: #0b0c10 !important;
+  border:none;
 }
 
 .collapsed {
