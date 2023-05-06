@@ -101,65 +101,76 @@ function App() {
       </Header>
       <Content className="content-container">
         <Container className="upper-container">
-          <Sidebar className="side-bar-container">
-            <Navbar appearance="subtle">
-              <Navbar></Navbar>
-            </Navbar>
-            <Panel header="Search History" className="history-panel">
-              {searchHistory.length > 0 && (
-                <List className="history-list" bordered hover={true}>
-                  {searchHistory.map((term, index) => (
-                    <List.Item
-                      size="md"
-                      className="list-item"
+          <div className="side-bar-section">
+            <Sidebar className="side-bar-container">
+              <Navbar appearance="subtle">
+                <Navbar></Navbar>
+              </Navbar>
+              <Panel header="Search History" className="history-panel">
+                {searchHistory.length > 0 && (
+                  <List className="history-list" bordered hover={true}>
+                    {searchHistory.map((term, index) => (
+                      <List.Item
+                        size="md"
+                        className="list-item"
+                        onClick={() => {
+                          handleHistoryClick(term);
+                        }}
+                        key={index}
+                      >
+                        {term}
+                      </List.Item>
+                    ))}
+                  </List>
+                )}
+                <Button
+                  appearance="ghost"
+                  className="history-button"
+                  onClick={handleClearHistory}
+                >
+                  Clear History
+                </Button>
+              </Panel>
+            </Sidebar>
+          </div>
+          <div className="search-bar-section">
+            <Container className="search-container">
+              <FlexboxGrid justify="center">
+                <FlexboxGrid.Item colspan={12}>
+                  <InputGroup className="search-bar-container">
+                    <Input
+                      className="text-input"
+                      value={searchTerm}
+                      onChange={(value) => setSearchTerm(value)}
+                      placeholder="Enter a search term"
+                    />
+                    <InputGroup.Button
                       onClick={() => {
-                        handleHistoryClick(term);
+                        handleSearch();
                       }}
-                      key={index}
                     >
-                      {term}
-                    </List.Item>
-                  ))}
-                </List>
+                      <Search />
+                    </InputGroup.Button>
+                  </InputGroup>
+                </FlexboxGrid.Item>
+              </FlexboxGrid>
+            </Container>
+          </div>
+          <div className="results-section">
+            <Container className="results">
+              {searchResults.length > 0 && (
+                <PanelGroup className="panel-group">
+                  {searchResults.map((result) => {
+                    return (
+                      <Panel header={result.Name} className="panel">
+                        {getLink(result.Results)}
+                      </Panel>
+                    );
+                  })}
+                </PanelGroup>
               )}
-              <Button appearance="ghost" className="history-button" onClick={handleClearHistory}>
-                Clear History
-              </Button>
-            </Panel>
-          </Sidebar>
-          <Container className="search-container">
-            <FlexboxGrid justify="center">
-              <FlexboxGrid.Item colspan={12}>
-                <InputGroup className="search-bar-container">
-                  <Input className="text-input"
-                    value={searchTerm}
-                    onChange={(value) => setSearchTerm(value)}
-                    placeholder="Enter a search term"
-                  />
-                  <InputGroup.Button
-                    onClick={() => {
-                      handleSearch();
-                    }}
-                  >
-                    <Search />
-                  </InputGroup.Button>
-                </InputGroup>
-              </FlexboxGrid.Item>
-            </FlexboxGrid>
-          </Container>
-          <Container className="results">
-            {searchResults.length > 0 && (
-              <PanelGroup className="panel-group">
-                {searchResults.map((result) => {
-                  return (
-                    <Panel header={result.Name} className="panel">
-                      {getLink(result.Results)}
-                    </Panel>
-                  );
-                })}
-              </PanelGroup>
-            )}
-          </Container>
+            </Container>
+          </div>
         </Container>
       </Content>
       <Footer></Footer>
