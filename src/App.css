@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+  background-color: darkgray;
+  margin: 0;
+  padding: 0;
+}
+
+.upper-container {
+  .body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .container {
+    display: flex;
+    flex: 1;
+    overflow: auto;
+  }
+  
+  .sidebar {
+    width: 300px;
+    background-color: #f0f0f0;
+    overflow: auto;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  @media (max-width: 992px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+    }
+  }
+}
